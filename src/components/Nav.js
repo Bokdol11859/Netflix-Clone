@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import "./Nav.css";
 
 const Nav = () => {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 50) {
+        setShow(true);
+      } else {
+        setShow(false);
+      }
+    });
+
+    return () => {
+      window.removeEventListener("scroll", () => {});
+    };
+  }, []);
+
   return (
-    <nav className={`nav`}>
+    <nav className={`nav ${show && "nav__black"}`}>
       <img
         alt="Netflix logo"
-        className="Nav__logo"
+        className="nav__logo"
         onClick={() => {
           window.location.reload();
         }}
