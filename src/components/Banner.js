@@ -52,9 +52,9 @@ const Banner = () => {
                 setIsClicked(true);
               }}
             >
-              Play
+              재생
             </button>
-            <button className="banner__button info">More Information</button>
+            <button className="banner__button info">상세 정보</button>
           </div>
           <h1 className="banner__description">
             {truncate(movie.overview, 100)}

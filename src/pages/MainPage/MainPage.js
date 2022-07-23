@@ -8,23 +8,19 @@ const MainPage = () => {
     <>
       <Banner />
       <Row
-        title="NETFLIX ORIGINALS"
+        title="오직 넷플릭스에서"
         id="NO"
         fetchUrl={requests.fetchNetflixOriginals}
         isLargeRow
       />
-      <Row title="Trending Now" id="TN" fetchUrl={requests.fetchTrending} />
-      <Row title="Top Rated" id="TR" fetchUrl={requests.fetchTopRated} />
+      <Row title="지금 뜨는 콘텐츠" id="TN" fetchUrl={requests.fetchTrending} />
       <Row
-        title="Action Movies"
+        title="오늘 대한민국의 TOP 20 영화"
         id="TR"
-        fetchUrl={requests.fetchActionMovies}
+        fetchUrl={requests.fetchTopRated}
       />
-      <Row
-        title="Comedy Movies"
-        id="CM"
-        fetchUrl={requests.fetchComedyMovies}
-      />
+      <Row title="액션 영화" id="TR" fetchUrl={requests.fetchActionMovies} />
+      <Row title="코미디 영화" id="CM" fetchUrl={requests.fetchComedyMovies} />
     </>
   );
 };
