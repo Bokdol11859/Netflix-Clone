@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import useOnClickOutside from "../../hooks/useOnClickOutside";
 import "./MovieModal.css";
 
 const MovieModal = ({
@@ -13,6 +14,10 @@ const MovieModal = ({
 }) => {
   const [percent, setPercent] = useState(0);
 
+  const ref = useRef();
+  useOnClickOutside(ref, () => {
+    setModalOpen(false);
+  });
   useEffect(() => {
     setPercent(Math.floor(Math.random() * 100));
   }, []);
@@ -20,7 +25,7 @@ const MovieModal = ({
   return (
     <div className="presentation">
       <div className="wrapper-modal">
-        <div className="modal">
+        <div className="modal" ref={ref}>
           <span
             onClick={() => {
               setModalOpen(false);
