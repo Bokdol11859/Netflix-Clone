@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "../../api/axios";
+import useDebounce from "../../hooks/useDebounce";
 import "./SearchPage.css";
 const SearchPage = () => {
   const [searchResults, setSearchResults] = useState([]);
@@ -11,17 +12,17 @@ const SearchPage = () => {
 
   let query = useQuery();
   const searchTerm = query.get("q");
-
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
   useEffect(() => {
-    if (searchTerm) {
-      fetchSearchMovie(searchTerm);
+    if (debouncedSearchTerm) {
+      fetchSearchMovie(debouncedSearchTerm);
     }
-  }, [searchTerm]);
+  }, [debouncedSearchTerm]);
 
-  const fetchSearchMovie = async (searchTerm) => {
+  const fetchSearchMovie = async (debouncedSearchTerm) => {
     try {
       const request = await axios.get(
-        `/search/multi?include_adult=true&query=${searchTerm}`
+        `/search/multi?include_adult=true&query=${debouncedSearchTerm}`
       );
       console.log(request);
       setSearchResults(request.data.results);
@@ -38,7 +39,7 @@ const SearchPage = () => {
             const movieImageUrl =
               "https://image.tmdb.org/t/p/w500" + movie.backdrop_path;
             return (
-              <div className="movie">
+              <div className="movie" key={movie.id}>
                 <div className="movie__column-poster">
                   <img
                     src={movieImageUrl}
@@ -54,7 +55,10 @@ const SearchPage = () => {
     ) : (
       <section className="no-results">
         <div className="no-results__text">
-          <p>입력하신 검색어 "{searchTerm}"(와)과 일치하는 결과가 없습니다.</p>
+          <p>
+            입력하신 검색어 "{debouncedSearchTerm}"(와)과 일치하는 결과가
+            없습니다.
+          </p>
           <p>추천 검색어:</p>
           <ul>
             <li>다른 키워드를 입력해 보세요.</li>
